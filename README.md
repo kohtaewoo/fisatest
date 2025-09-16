@@ -13,11 +13,11 @@
 ## ⚙️ 아키텍처 다이어그램
 
 ```
-+-----------+     push     +-----------------+     webhook     +-----------------------------------------+
++-----------+      push      +-----------------+      webhook      +-----------------------------------------+
 |           | -------------> |                 | --------------->  |                                         |
 |  GitHub   |                |  Jenkins Server |                   |  Jenkins Pipeline                       |
 |           | <------------- |  (Docker)       | <---------------- |  (Checkout -> Build -> Archive -> Copy) |
-+-----------+   git clone    +-----------------+    trigger      +-----------------------------------------+
++-----------+   git clone    +-----------------+      trigger      +-----------------------------------------+
                                                                                     |
                                                                                     | build artifact (.jar)
                                                                                     |
@@ -205,36 +205,46 @@ git push origin main
 파이프라인이 성공적으로 완료되면, 바인드 마운트된 호스트 경로에서 .jar 파일을 확인할 수 있습니다.
 
 
-# 워크스페이스 루트에 복사된 JAR 파일 확인
+- 워크스페이스 루트에 복사된 JAR 파일 확인
+```
 ls -al /srv/jenkins/workspace/step03_teamArt/*.jar
+```
+<img width="1326" height="66" alt="image" src="https://github.com/user-attachments/assets/aea895cc-3eae-4933-8d3c-202e4434c3a7" />
 
-# 또는 원본 빌드 경로 확인 (Gradle 기준)
+
+- 또는 원본 빌드 경로 확인 (Gradle 기준)
+```
 ls -al /srv/jenkins/workspace/step03_teamArt/step03_JPAGradle/build/libs/
-7. 애플리케이션 컨테이너 실행
-호스트에 저장된 .jar 파일을 OpenJDK 컨테이너에 마운트하여 애플리케이션을 실행합니다.
+```
+<img width="980" height="127" alt="image" src="https://github.com/user-attachments/assets/24f5ffc7-c83b-4fc0-a8d7-5123707d51c0" />
 
-Bash
-
-# 환경 변수로 산출물 경로 지정
+### 7. 애플리케이션 컨테이너 실행
+- 호스트에 저장된 .jar 파일을 OpenJDK 컨테이너에 마운트하여 애플리케이션을 실행합니다.
+- 환경 변수로 산출물 경로 지정
+```
 export APP_JAR_PATH=/srv/jenkins/workspace/step03_teamArt
+```
 
-# Docker 컨테이너 실행 (호스트 포트 8900 연결)
-# --mount 옵션은 호스트의 JAR 파일을 컨테이너의 /app 디렉터리에 읽기 전용으로 마운트합니다.
+- Docker 컨테이너 실행 (호스트 포트 8900 연결)
+>  --mount 옵션은 호스트의 JAR 파일을 컨테이너의 /app 디렉터리에 읽기 전용으로 마운트합니다.
+```
 docker run -d \
   --name step03-app \
   -p 8900:8900 \
   --mount type=bind,source=${APP_JAR_PATH},target=/app,readonly \
   openjdk:17-jdk-slim \
   java -jar /app/*.jar
+```
 
-# 애플리케이션 로그 확인
+- 애플리케이션 로그 확인
+'''
 docker logs -f step03-app
-application.properties 파일에 server.port = 8900으로 설정되어 있으므로 호스트의 8900 포트를 컨테이너의 8900 포트와 연결합니다.
+'''
+- application.properties 파일에 server.port = 8900으로 설정되어 있으므로 호스트의 8900 포트를 컨테이너의 8900 포트와 연결합니다.
 
-8. 애플리케이션 동작 확인
+### 8. 애플리케이션 동작 확인
 컨테이너가 정상적으로 실행되면 curl이나 웹 브라우저를 통해 API 엔드포인트를 호출하여 동작을 검증할 수 있습니다.
 
-Bash
 
 # GET 요청 테스트
 curl http://localhost:8900/app/get
