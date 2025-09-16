@@ -20,6 +20,7 @@ public class Controller {
 	}
 	
 	@GetMapping("/get")
+<<<<<<< HEAD
 	public String getReRes1() {
 		return "get 방식 요청의 응답 데이터 : 병길";
 	}
@@ -36,3 +37,14 @@ public class Controller {
 	}
 
 }
+=======
+	public String getReqRes() {
+		return "get 방식 요청의 응답 데이터 : 나는병길";
+	}
+	
+	@PostMapping("/post")
+	public String getReqRes2() {
+		return "post 방식 요청의 응답 데이터 : 나는태우";
+	}
+}
+>>>>>>> 6027160341e9ca2f756f4cc0c99a64f0a27acef1
