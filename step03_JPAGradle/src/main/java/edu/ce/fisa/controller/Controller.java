@@ -9,11 +9,11 @@ public class Controller {
 	
 	@GetMapping("/get")
 	public String getReqRes() {
-		return "get 방식 요청의 응답 데이터 : 나는병길입니다";
+		return "get 방식 요청의 응답 데이터 : 나는병길";
 	}
 	
 	@PostMapping("/post")
 	public String getReqRes2() {
-		return "post 방식 요청의 응답 데이터 : 나는솔로";
+		return "post 방식 요청의 응답 데이터 : 나는태우";
 	}
 }
