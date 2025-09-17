@@ -16,7 +16,7 @@ public class Controller {
 	@GetMapping("/health")
 	@ResponseBody
 	public String health() {
-	    return "OK";
+	    return "Hi";
 	}
 	
 	@GetMapping("/get")
