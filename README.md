@@ -202,7 +202,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable myapp
 ```
 
-### 2) Jenkinsfile (Day 2: SSH로 VM2 배포)
+### 2) Jenkins (SSH로 VM2 배포)
 
 > VM1의 Jenkins(컨테이너든 로컬이든 상관없이 동일)에서 scp로 JAR 전송 → VM2에서 서비스 재시작
 > 
@@ -343,6 +343,15 @@ pipeline {
 
 - 포트 중복/환경 변수/자바 버전 확인
 - 로그 확인: `journalctl -u myapp -f`
+
+
+**권한/퍼미션**
+- jenkins 사용자로 로그인시 복사해둔 비밀번호가 불일치
+- jenkins를 로컬에 설치 후 ssh키값을 재등록 하지 않아 권한에러 발생
+
+해결
+- sudo su - jenkins 명령어를 통해 root비밀번호로 jenkins 사용자 로그인
+- jenkins 사용자로 접속하여 ssh키 발급 및 ubuntu2에 public key 등록
 
 ---
 
