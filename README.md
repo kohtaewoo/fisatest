@@ -1,10 +1,11 @@
+# 🚀 Spring Boot CI/CD Pipeline with Jenkins & Docker
+
 Jenkins를 활용하여 CI/CD 파이프라인을 직접 구성하고 검증한 실습입니다.
 
 - GitHub 저장소 변경 사항 자동 감지 (Webhook)
 - Gradle 빌드 → JAR 생성 → 아카이빙
 - **Day 1:** 단일 VM에서 Jenkins(컨테이너) + 바인드 마운트로 즉시 실행
 - **Day 2:** **VM1(빌드/배포)** → **VM2(WAS 실행)** 원격 배포
-
 ---
 
 ## 🧰 기술 스택
